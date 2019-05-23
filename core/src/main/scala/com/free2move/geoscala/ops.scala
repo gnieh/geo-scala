@@ -60,13 +60,15 @@ object ops {
     }
 
     private def calcPolygonArea(coordinates: List[Coordinate]): Double = {
-      0.5 * coordinates
-        .zip(coordinates.tail)
-        .map {
-          case (first, second) =>
-            first.longitude * second.latitude - second.longitude * first.latitude
-        }
-        .sum
+      0.5 * math.abs(
+        coordinates
+          .zip(coordinates.tail)
+          .map {
+            case (first, second) =>
+              first.longitude * second.latitude - second.longitude * first.latitude
+          }
+          .sum
+      )
     }
 
     /** Returns the envelope including this geometry if any.
