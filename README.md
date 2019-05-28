@@ -1,6 +1,6 @@
 # geo-scala
 
-A core AST and utilities for GeoJSON ([RFC 7946][rfc-7946] and more.
+A core AST and utilities for GeoJSON ([RFC 7946][rfc-7946]) and more.
 
 The project is divided in several submodules:
  - `core` contains the data model for geographical entities;
@@ -14,6 +14,10 @@ Add the following dependency in your sbt build configuration:
 ```scala
 "com.free2move" %% "geo-scala" % "0.1.0"
 ```
+
+## Code of Conduct
+
+This project uses the Scala Code of Conduct - see [here](CODE_OF_CONDUCT.md).
 
 ## License
 
