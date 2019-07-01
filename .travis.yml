@@ -1,4 +1,17 @@
 language: scala
+dist: xenial
+
 scala:
   - 2.11.12
   - 2.12.8
+
+jdk:
+  - openjdk8
+
+cache:
+  directories:
+    - $HOME/.ivy2
+
+branches:
+  only:
+    - master
