@@ -1,17 +1,23 @@
 language: scala
 dist: xenial
-
 scala:
-  - 2.11.12
-  - 2.12.8
-
+- 2.11.12
+- 2.12.8
 jdk:
-  - openjdk8
-
+- openjdk8
 cache:
   directories:
-    - $HOME/.ivy2
-
+  - "$HOME/.ivy2"
 branches:
   only:
-    - master
+  - master
+jobs:
+  include:
+    - stage: test
+    - stage: publish
+      if: (tag =~ ^v) AND (branch = master)
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_30b6cfe91504_key -iv $encrypted_30b6cfe91504_iv
+          -in key.asc.enc -out key.asc -d
+      before_script: gpg --import key.asc
+      script: sbt +publish

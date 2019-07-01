@@ -16,7 +16,7 @@ lazy val commonSettings = Seq(
 )
 
 lazy val root = project.in(file("."))
-  .settings(commonSettings ++ Seq(
+  .settings(commonSettings ++ publishSettings ++ Seq(
     name := "geo-scala",
     publishArtifact := false,
     packagedArtifacts := Map()
