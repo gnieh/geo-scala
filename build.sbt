@@ -65,5 +65,21 @@ lazy val publishSettings = Seq(
       <system>github</system>
       <url>https://github.com/Free2MoveApp/geo-scala/issues</url>
     </issueManagement>
+    <developers>
+      <developer>
+        <id>satabin</id>
+        <name>Lucas Satabin</name>
+        <email>lucas.satabin@free2move.me</email>
+      </developer>
+      <developer>
+        <id>ybasket</id>
+        <name>Yannick Heiber</name>
+        <email>yannick.heiber@free2move.me</email>
+      </developer>
+    </developers>
+    <ciManagement>
+      <system>travis</system>
+      <url>https://travis-ci.com/#!/free2moveapp/geo—scala</url>
+    </ciManagement>
   )
 )
