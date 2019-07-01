@@ -5,15 +5,18 @@ jdk:
 cache:
   directories:
   - "$HOME/.ivy2"
+scala:
+  - 2.12.8
+  - 2.11.12
+branches:
+  only:
+    - master
 jobs:
   include:
-    - stage: test
-      if: branch = master
-      scala:
-        - 2.11.12
-        - 2.12.8
     - stage: publish
       if: (tag =~ ^v) AND (branch = master)
+      scala:
+        - 2.12.8
       before_install:
         - openssl aes-256-cbc -K $encrypted_30b6cfe91504_key -iv $encrypted_30b6cfe91504_iv
           -in key.asc.enc -out key.asc -d
