@@ -15,7 +15,7 @@ branches:
 jobs:
   include:
     - stage: publish
-      if: (tag =~ ^v) AND (branch = master)
+      if: tag =~ /^v\d+\.\d+(\.\d+)?(-\S*)?$/
       scala:
         - 2.12.8
       before_install:
