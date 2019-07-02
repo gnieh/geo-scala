@@ -22,18 +22,18 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 class PolylineTest extends FlatSpec with Matchers with OptionValues with TryValues with ScalaCheckDrivenPropertyChecks {
 
   "The polyline encoding" should "be correct for the Google sample" in {
-    val example = LineString(List(Coordinate(38.5, -120.2), Coordinate(40.7, -120.95), Coordinate(43.252, -126.453)))
+    val example = LineString(List(Coordinate(longitude = -120.2, latitude = 38.5), Coordinate(longitude = -120.95, latitude = 40.7), Coordinate(longitude = -126.453, latitude = 43.252)))
     polyline.encode(example) shouldBe "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
   }
 
   "The polyline decoding" should "be correct for the Google sample" in {
     val example = "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
-    val expected = LineString(List(Coordinate(38.5, -120.2), Coordinate(40.7, -120.95), Coordinate(43.252, -126.453)))
+    val expected = LineString(List(Coordinate(longitude = -120.2, latitude = 38.5), Coordinate(longitude = -120.95, latitude = 40.7), Coordinate(longitude = -126.453, latitude = 43.252)))
     val result = polyline.decode(example)
     result.success.value shouldBe expected
   }
 
-  it should "handle an example Lime trip" in {
+  it should "handle an example trip through Warsaw" in {
     val poly =
       "q_|}Hu|f_C_@O?A@CW~@NxAMv@[r@e@r@e@n@Uh@En@CbAUv@Ut@_@b@]b@a@f@c@j@En@RzA^pAh@fAl@rBThAPz@RbAZ|ALn@Nz@Jf@^pAZlAf@pBTfBLbCFpAFfBDnAF|AF|AFbBHpBFvAHlBFpAHnBJjBDl@RzB"
     val decoded = polyline.decode(poly).success.value

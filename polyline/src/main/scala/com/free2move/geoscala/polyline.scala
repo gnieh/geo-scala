@@ -43,7 +43,7 @@ object polyline {
   }
 
   private def coord2Poly(coord: Coordinate): String = {
-    num2Poly(coord.longitude) + num2Poly(coord.latitude)
+     num2Poly(coord.latitude) + num2Poly(coord.longitude)
   }
 
   private def num2Poly(num: Double): String = {
@@ -80,12 +80,12 @@ object polyline {
             .map {
               // it is safe to only match this case as it was checked above that the length is even
               // then every group has exactly 2 elements
-              case List(lng, lat) => Coordinate(lat, lng)
+              case List(lng, lat) => Coordinate(longitude = lng, latitude = lat)
             }
             .toList
             .scanRight(Coordinate(0.0, 0.0)) {
               case (old, delta) =>
-                Coordinate(old.longitude + delta.longitude, old.latitude + delta.latitude)
+                Coordinate(longitude = old.longitude + delta.longitude, latitude = old.latitude + delta.latitude)
             }
             .reverse
             .tail
