@@ -15,7 +15,7 @@ The project is divided in several submodules:
 Add the following dependency in your sbt build configuration:
 
 ```scala
-"com.free2move" %% "geo-scala" % "0.1.0"
+"com.free2move" %% "geo-scala" % "<version from badge above>"
 ```
 
 ## Code of Conduct
