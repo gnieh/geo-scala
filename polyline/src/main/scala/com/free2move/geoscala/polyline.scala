@@ -48,7 +48,7 @@ object polyline {
 
   private def num2Poly(num: Double): String = {
     val scaled = Math.round(num * 1e5).toInt
-    val bits = if (num < 0.0) ~(scaled << 1) else scaled << 1
+    val bits = if (scaled < 0.0) ~(scaled << 1) else scaled << 1
     chunkMasks
       .map {
         case (mask, idx) =>

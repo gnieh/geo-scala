@@ -16,6 +16,7 @@
 package com.free2move.geoscala
 
 import org.scalacheck._
+import org.scalactic.{Equality, TolerantNumerics}
 import org.scalatest._
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
@@ -39,6 +40,17 @@ class PolylineTest extends FlatSpec with Matchers with OptionValues with TryValu
     val decoded = polyline.decode(poly).success.value
     decoded.coordinates.length shouldBe 50
     polyline.encode(decoded) shouldBe poly
+  }
+
+  it should "handle cases where coordinate delta is slightly negative (< 10^-5)" in {
+    val ls = LineString(List(Coordinate(13.39336395263672,52.52311483252328), Coordinate(13.39332,52.52311)))
+    val encoded = polyline.encode(ls)
+    val decoded = polyline.decode(encoded).success.value
+    implicit val doubleEquality: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(0.00001) // 10^-5
+    decoded.coordinates.head.latitude should ===(ls.coordinates.head.latitude)
+    decoded.coordinates.head.longitude should ===(ls.coordinates.head.longitude)
+    decoded.coordinates.tail.head.latitude should ===(ls.coordinates.tail.head.latitude)
+    decoded.coordinates.tail.head.longitude should ===(ls.coordinates.tail.head.longitude)
   }
 
   implicit val coordGen: Gen[Coordinate] = for {
