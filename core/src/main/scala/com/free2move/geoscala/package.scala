@@ -97,4 +97,28 @@ package object geoscala {
     */
   case class MultiPolygon(coordinates: List[List[List[Coordinate]]]) extends Geometry
 
+  // Non GeoJSON, but helpful stuff
+
+  /**
+    * A representation of a bounding box (= rectangle aligned with coordinate axis) by specification of
+    * the most south-west and the most north-east points.
+    * @param southwest the point with smallest longitude and latitude
+    * @param northeast the point with the biggest longitude and latitude
+    */
+  case class Bounds(southwest: Point, northeast: Point)
+
+  object Bounds extends ((Double, Double, Double, Double) => Bounds) {
+
+    /**
+      * Create a [[Bounds]] by specifying the longitude and latitude extremes.
+      * @param minLon the minimum longitude
+      * @param minLat the minimum latitude
+      * @param maxLon the maximum longitude
+      * @param maxLat the maximum latitude
+      * @return a [[Bounds]] object constructed by combining the minimum and maximum coordinate values.
+      */
+    def apply(minLon: Double, minLat: Double, maxLon: Double, maxLat: Double): Bounds =
+      Bounds(Point(Coordinate(longitude = minLon, latitude = minLat)), Point(Coordinate(longitude = maxLon, latitude = maxLat)))
+  }
+
 }

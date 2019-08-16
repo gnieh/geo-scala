@@ -28,7 +28,7 @@ class EnvelopeTest extends FlatSpec with Matchers with OptionValues {
     poly.envelope.value shouldBe envelope
   }
 
-  "The envelope" should "be the bounding box for a polygon with holes" in {
+  it should "be the bounding box for a polygon with holes" in {
     val poly = Polygon(
       List(
         List(Coordinate(-121, 39), Coordinate(-119, 39), Coordinate(-119, 41), Coordinate(-121, 41), Coordinate(-121, 39)),

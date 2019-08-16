@@ -24,8 +24,9 @@ lazy val root = project.in(file("."))
   .aggregate(core, circe, polyline)
 
 lazy val core = project.in(file("core"))
-.settings(commonSettings ++ publishSettings ++ Seq(
-    name := "geo-scala-core"
+  .settings(commonSettings ++ publishSettings ++ Seq(
+    name := "geo-scala-core",
+    libraryDependencies += "com.github.davidmoten" % "geo" % "0.7.6" % Test
   ))
 
 val circeVersion = "0.11.1"
