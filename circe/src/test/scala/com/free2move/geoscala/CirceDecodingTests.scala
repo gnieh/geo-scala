@@ -17,9 +17,11 @@ package com.free2move.geoscala
 
 import io.circe._
 import io.circe.syntax._
-import org.scalatest.{EitherValues, FlatSpec, Matchers}
+import org.scalatest.EitherValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class CirceDecodingTests extends FlatSpec with Matchers with EitherValues {
+class CirceDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
 
   import com.free2move.geoscala.circe._
 

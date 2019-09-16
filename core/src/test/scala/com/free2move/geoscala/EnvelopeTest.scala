@@ -16,15 +16,16 @@
 package com.free2move.geoscala
 
 import org.scalatest._
-
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 import ops._
 
-class EnvelopeTest extends FlatSpec with Matchers with OptionValues {
+class EnvelopeTest extends AnyFlatSpec with Matchers with OptionValues {
 
   "The envelope" should "be the bounding box for a polygon" in {
     val poly = Polygon(List(List(Coordinate(-121, 39), Coordinate(-119, 39), Coordinate(-119, 41), Coordinate(-121, 41), Coordinate(-121, 39))))
     val envelope = Polygon(List(List(Coordinate(-121, 39), Coordinate(-121, 41), Coordinate(-119, 41), Coordinate(-119, 39), Coordinate(-121, 39))))
-    poly.envelope shouldBe 'defined
+    poly.envelope shouldBe defined
     poly.envelope.value shouldBe envelope
   }
 
@@ -36,14 +37,14 @@ class EnvelopeTest extends FlatSpec with Matchers with OptionValues {
       )
     )
     val envelope = Polygon(List(List(Coordinate(-121, 39), Coordinate(-121, 41), Coordinate(-119, 41), Coordinate(-119, 39), Coordinate(-121, 39))))
-    poly.envelope shouldBe 'defined
+    poly.envelope shouldBe defined
     poly.envelope.value shouldBe envelope
   }
 
   it should "be the bounding box including all parts of a multi polygon" in {
     val poly = MultiPolygon(List(List(List(Coordinate(-121, 39), Coordinate(-119, 39), Coordinate(-119, 41), Coordinate(-121, 41), Coordinate(-121, 39)))))
     val envelope = Polygon(List(List(Coordinate(-121, 39), Coordinate(-121, 41), Coordinate(-119, 41), Coordinate(-119, 39), Coordinate(-121, 39))))
-    poly.envelope shouldBe 'defined
+    poly.envelope shouldBe defined
     poly.envelope.value shouldBe envelope
   }
 

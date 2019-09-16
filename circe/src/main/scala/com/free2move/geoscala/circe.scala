@@ -57,15 +57,15 @@ trait GeoJsonEncoders extends LowPriorityGeoJsonEncoders {
     case mp: MultiPolygon     => mp.asJson
   }
 
-  implicit def extendedFeatureEncoder[Properties: ObjectEncoder]: Encoder[Feature[Properties]] = Encoder.instance { feature =>
+  implicit def extendedFeatureEncoder[Properties: Encoder.AsObject]: Encoder[Feature[Properties]] = Encoder.instance { feature =>
     Json.obj("type" := "Feature", "properties" := feature.properties, "geometry" := feature.geometry)
   }
 
-  implicit def extendedFeatureCollectionEncoder[Properties: ObjectEncoder]: Encoder[FeatureCollection[Properties]] = Encoder.instance { featureCollection =>
+  implicit def extendedFeatureCollectionEncoder[Properties: Encoder.AsObject]: Encoder[FeatureCollection[Properties]] = Encoder.instance { featureCollection =>
     Json.obj("type" := "FeatureCollection", "features" := featureCollection.features)
   }
 
-  implicit def geojsonEncoder[Properties: ObjectEncoder]: Encoder[GeoJson[Properties]] = Encoder.instance {
+  implicit def geojsonEncoder[Properties: Encoder.AsObject]: Encoder[GeoJson[Properties]] = Encoder.instance {
     case fc @ FeatureCollection(_) => fc.asJson
     case f @ Feature(_, _)         => f.asJson
     case geom: Geometry            => (geom: Geometry).asJson

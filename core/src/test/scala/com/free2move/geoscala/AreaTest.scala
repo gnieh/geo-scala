@@ -16,10 +16,11 @@
 package com.free2move.geoscala
 
 import org.scalatest._
-
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 import ops._
 
-class AreaTest extends FlatSpec with Matchers with OptionValues {
+class AreaTest extends AnyFlatSpec with Matchers with OptionValues {
 
   "The area" should "be correct for a square" in {
     val poly = Polygon(List(List(Coordinate(-121, 39), Coordinate(-119, 39), Coordinate(-119, 41), Coordinate(-121, 41), Coordinate(-121, 39))))

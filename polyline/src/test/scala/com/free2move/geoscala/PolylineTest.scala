@@ -18,9 +18,11 @@ package com.free2move.geoscala
 import org.scalacheck._
 import org.scalactic.{Equality, TolerantNumerics}
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class PolylineTest extends FlatSpec with Matchers with OptionValues with TryValues with ScalaCheckDrivenPropertyChecks {
+class PolylineTest extends AnyFlatSpec with Matchers with OptionValues with TryValues with ScalaCheckDrivenPropertyChecks {
 
   "The polyline encoding" should "be correct for the Google sample" in {
     val example = LineString(List(Coordinate(longitude = -120.2, latitude = 38.5), Coordinate(longitude = -120.95, latitude = 40.7), Coordinate(longitude = -126.453, latitude = 43.252)))
