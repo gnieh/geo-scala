@@ -3,7 +3,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.free2move/geo-scala-core_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.free2move/geo-scala-core_2.12)
 [![Build Status](https://travis-ci.com/Free2MoveApp/geo-scala.svg?branch=master)](https://travis-ci.com/Free2MoveApp/geo-scala)
 
-A core AST and utilities for GeoJSON ([RFC 7946][rfc-7946]) and more.
+A core AST and utilities for GeoJSON ([RFC 7946][rfc-7946]) and more. Builds for Scala 2.13 and 2.12.
 
 The project is divided in several submodules:
  - `core` contains the data model for geographical entities;

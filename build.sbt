@@ -1,17 +1,16 @@
-val scala211 = "2.11.12"
-val scala212 = "2.12.8"
-// val scala213 = "2.13.0-RC1"
+val scala212 = "2.12.10"
+val scala213 = "2.13.0"
 
 lazy val commonSettings = Seq(
-  scalaVersion := scala212,
-  crossScalaVersions := Seq(scala211, scala212),
+  scalaVersion := scala213,
+  crossScalaVersions := Seq(scala212, scala213),
   organization := "com.free2move",
   version := "0.1.2",
   licenses += ("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
   homepage := Some(url("https://github.com/Free2MoveApp/geo-scala")),
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.2.0-SNAP10" % Test,
-    "org.scalatestplus" %% "scalatestplus-scalacheck" % "1.0.0-SNAP8" % Test,
+    "org.scalatest" %% "scalatest" % "3.1.0-RC2" % Test,
+    "org.scalatestplus" %% "scalatestplus-scalacheck" % "3.1.0.0-RC2" % Test,
     "org.scalacheck" %% "scalacheck" % "1.14.0" % Test),
 )
 
@@ -28,7 +27,7 @@ lazy val core = project.in(file("core"))
     name := "geo-scala-core"
   ))
 
-val circeVersion = "0.11.1"
+val circeVersion = "0.12.1"
 lazy val circe = project.in(file("circe"))
   .dependsOn(core)
   .settings(commonSettings ++ publishSettings ++ Seq(
