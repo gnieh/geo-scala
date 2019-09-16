@@ -5,12 +5,12 @@ import org.scalacheck.{Gen, Prop}
 import org.scalatest.PropSpec
 import org.scalatest.check.Checkers
 
-class GeoHashTest extends PropSpec with Checkers {
+class GeohashTest extends PropSpec with Checkers {
 
   implicit override val generatorDrivenConfig: PropertyCheckConfiguration =
     PropertyCheckConfiguration(minSuccessful = 1000)
 
-    import GeoHash._
+    import geohash._
 
     property("combine(split) == identity") {
       check(Prop.forAll(Gen.chooseNum[Long](0, 0x0FFFFFFFFFFFFFFFL)) { l: Long =>
@@ -72,7 +72,7 @@ class GeoHashTest extends PropSpec with Checkers {
       })
     }
 
-    // This test takes some time
+    // This test takes quite some time
     /*property("coverGeoHashes() must equal external implementation") {
       check(Prop.forAllNoShrink(coordinatesGen) { case (lon, lat) =>
         Prop.forAllNoShrink(Gen.chooseNum(1, 12)) { precision =>

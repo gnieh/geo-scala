@@ -2,7 +2,7 @@ package com.free2move.geoscala
 
 import scala.util.Try
 
-object GeoHash {
+object geohash {
 
   private[geoscala] val base32: Array[Char] = "0123456789bcdefghjkmnpqrstuvwxyz".toCharArray
 
