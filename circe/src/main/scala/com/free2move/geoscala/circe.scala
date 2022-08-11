@@ -89,17 +89,17 @@ trait GeoJsonDecoders {
     } yield create(coords)
   }
 
-  implicit val pointDecoder: Decoder[Point] = makeGeometryDecoder("Point", Point)
+  implicit val pointDecoder: Decoder[Point] = makeGeometryDecoder("Point", Point.apply)
 
-  implicit val multiPointDecoder: Decoder[MultiPoint] = makeGeometryDecoder("MultiPoint", MultiPoint)
+  implicit val multiPointDecoder: Decoder[MultiPoint] = makeGeometryDecoder("MultiPoint", MultiPoint.apply)
 
-  implicit val lineStringDecoder: Decoder[LineString] = makeGeometryDecoder("LineString", LineString)
+  implicit val lineStringDecoder: Decoder[LineString] = makeGeometryDecoder("LineString", LineString.apply)
 
-  implicit val multiLineStringDecoder: Decoder[MultiLineString] = makeGeometryDecoder("MultiLineString", MultiLineString)
+  implicit val multiLineStringDecoder: Decoder[MultiLineString] = makeGeometryDecoder("MultiLineString", MultiLineString.apply)
 
-  implicit val polygonDecoder: Decoder[Polygon] = makeGeometryDecoder("Polygon", Polygon)
+  implicit val polygonDecoder: Decoder[Polygon] = makeGeometryDecoder("Polygon", Polygon.apply)
 
-  implicit val multiPolygonDecoder: Decoder[MultiPolygon] = makeGeometryDecoder("MultiPolygon", MultiPolygon)
+  implicit val multiPolygonDecoder: Decoder[MultiPolygon] = makeGeometryDecoder("MultiPolygon", MultiPolygon.apply)
 
   implicit val geometryDecoder: Decoder[Geometry] = List[Decoder[Geometry]](
     pointDecoder.widen,
@@ -144,11 +144,9 @@ trait GeoJsonDecoders {
 
 }
 
-/**
-  * Object with implicit circe encoders and decoders. You can alternatively mixin [[GeoJsonEncoders]] and
-  * [[GeoJsonDecoders]] instead of importing.
+/** Object with implicit circe encoders and decoders. You can alternatively mixin [[GeoJsonEncoders]] and [[GeoJsonDecoders]] instead of importing.
   *
-  * Note: If you want to decode feature (collections), you need to parameterize them with a type that has a `Decoder`,
-  * one easy option in case you don't care about them is `Json` itself.
+  * Note: If you want to decode feature (collections), you need to parameterize them with a type that has a `Decoder`, one easy option in case you don't care
+  * about them is `Json` itself.
   */
 object circe extends GeoJsonEncoders with GeoJsonDecoders

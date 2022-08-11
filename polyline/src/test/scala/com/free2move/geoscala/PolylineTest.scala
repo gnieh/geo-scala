@@ -25,13 +25,23 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 class PolylineTest extends AnyFlatSpec with Matchers with OptionValues with TryValues with ScalaCheckDrivenPropertyChecks {
 
   "The polyline encoding" should "be correct for the Google sample" in {
-    val example = LineString(List(Coordinate(longitude = -120.2, latitude = 38.5), Coordinate(longitude = -120.95, latitude = 40.7), Coordinate(longitude = -126.453, latitude = 43.252)))
+    val example = LineString(
+      List(Coordinate(longitude = -120.2, latitude = 38.5),
+           Coordinate(longitude = -120.95, latitude = 40.7),
+           Coordinate(longitude = -126.453, latitude = 43.252)
+      )
+    )
     polyline.encode(example) shouldBe "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
   }
 
   "The polyline decoding" should "be correct for the Google sample" in {
     val example = "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
-    val expected = LineString(List(Coordinate(longitude = -120.2, latitude = 38.5), Coordinate(longitude = -120.95, latitude = 40.7), Coordinate(longitude = -126.453, latitude = 43.252)))
+    val expected = LineString(
+      List(Coordinate(longitude = -120.2, latitude = 38.5),
+           Coordinate(longitude = -120.95, latitude = 40.7),
+           Coordinate(longitude = -126.453, latitude = 43.252)
+      )
+    )
     val result = polyline.decode(example)
     result.success.value shouldBe expected
   }
@@ -45,7 +55,7 @@ class PolylineTest extends AnyFlatSpec with Matchers with OptionValues with TryV
   }
 
   it should "handle cases where coordinate delta is slightly negative (< 10^-5)" in {
-    val ls = LineString(List(Coordinate(13.39336395263672,52.52311483252328), Coordinate(13.39332,52.52311)))
+    val ls = LineString(List(Coordinate(13.39336395263672, 52.52311483252328), Coordinate(13.39332, 52.52311)))
     val encoded = polyline.encode(ls)
     val decoded = polyline.decode(encoded).success.value
     implicit val doubleEquality: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(0.00001) // 10^-5
