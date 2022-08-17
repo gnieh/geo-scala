@@ -17,7 +17,7 @@ ThisBuild / tlSonatypeUseLegacyHost := true
 ThisBuild / crossScalaVersions := Seq(scala212, scala213, scala3)
 ThisBuild / scalaVersion := scala213 // the default Scala
 
-lazy val root = tlCrossRootProject.aggregate(core, circe, polyline) //.settings(name := "geo-scala")
+lazy val root = tlCrossRootProject.aggregate(core, circe, polyline).settings(name := "geo-scala")
 
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
