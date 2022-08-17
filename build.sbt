@@ -4,7 +4,7 @@ val scala3 = "3.1.3"
 
 ThisBuild / tlBaseVersion := "0.2"
 
-ThisBuild / organization := "com.free2move"
+ThisBuild / organization := "org.gnieh"
 ThisBuild / organizationName := "GHM Mobile Development GmbH"
 ThisBuild / startYear := Some(2019)
 ThisBuild / licenses := Seq(License.Apache2)
