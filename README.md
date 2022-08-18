@@ -1,7 +1,7 @@
 # geo-scala
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.free2move/geo-scala-core_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.free2move/geo-scala-core_2.12)
-[![Build Status](https://travis-ci.com/Free2MoveApp/geo-scala.svg?branch=master)](https://travis-ci.com/Free2MoveApp/geo-scala)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.gnieh/geo-scala-core_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.gnieh/geo-scala-core_2.13)
+[![Continuous Integration](https://github.com/gnieh/geo-scala/actions/workflows/ci.yml/badge.svg)](https://github.com/gnieh/geo-scala/actions/workflows/ci.yml)
 
 A core AST and utilities for GeoJSON ([RFC 7946][rfc-7946]) and more. Builds for Scala 3, 2.13 and 2.12 on JVM, JS and partially Scala Native.
 
@@ -12,11 +12,19 @@ The project is divided in several submodules:
 
 ## Quickstart
 
-Add the following dependency in your sbt build configuration:
+Add the following dependency in your sbt build configuration (use `%%%` instead of `%%` for JS and Native):
 
 ```scala
-"com.free2move" %% "geo-scala" % "<version from badge above>"
+"org.gnieh" %% "geo-scala" % "<version from badge above>"
 ```
+
+Note that versions up to `0.2.0` were published under `com.free2move` and JVM-only (2.12 and 2.13), so you need
+
+```scala
+"con.free2move" %% "geo-scala" % "0.2.0"
+```
+
+instead.
 
 ## Code of Conduct
 
