@@ -18,6 +18,7 @@ package com.free2move.geoscala
 
 import com.github.plokhotnyuk.jsoniter_scala.core._
 import com.github.plokhotnyuk.jsoniter_scala.macros._
+import scala.annotation.nowarn
 
 object jsoniter_scala {
   // Uncomment for printing of generating codecs
@@ -45,14 +46,11 @@ object jsoniter_scala {
       override def nullValue: Coordinate = null
     }
 
-  implicit val listOfCoordinatesCodec: JsonValueCodec[List[Coordinate]] =
-    JsonCodecMaker.make
+  implicit val listOfCoordinatesCodec: JsonValueCodec[List[Coordinate]] = JsonCodecMaker.make
 
-  implicit val listOfListOfCoordinatesCodec: JsonValueCodec[List[List[Coordinate]]] =
-    JsonCodecMaker.make
+  implicit val listOfListOfCoordinatesCodec: JsonValueCodec[List[List[Coordinate]]] = JsonCodecMaker.make
 
-  implicit val listOfListOfListOfCoordinatesCodec: JsonValueCodec[List[List[List[Coordinate]]]] =
-    JsonCodecMaker.make
+  implicit val listOfListOfListOfCoordinatesCodec: JsonValueCodec[List[List[List[Coordinate]]]] = JsonCodecMaker.make
 
   implicit val pointCodec: JsonValueCodec[Point] =
     makeGeometryCodec("Point", _.coordinates, Point.apply)
@@ -109,14 +107,13 @@ object jsoniter_scala {
       override def nullValue: G = null.asInstanceOf[G]
     }
 
-  implicit val geometryCodec: JsonValueCodec[Geometry] =
-    JsonCodecMaker.make
+  implicit val geometryCodec: JsonValueCodec[Geometry] = JsonCodecMaker.make
 
-  implicit def featureCodec[P: JsonValueCodec]: JsonValueCodec[Feature[P]] =
-    JsonCodecMaker.make
+  @nowarn
+  implicit def featureCodec[P: JsonValueCodec]: JsonValueCodec[Feature[P]] = JsonCodecMaker.make
 
-  implicit def featureCollectionCodec[P: JsonValueCodec]: JsonValueCodec[FeatureCollection[P]] =
-    JsonCodecMaker.make
+  @nowarn
+  implicit def featureCollectionCodec[P: JsonValueCodec]: JsonValueCodec[FeatureCollection[P]] = JsonCodecMaker.make
 
   implicit def geoJson[P: JsonValueCodec]: JsonValueCodec[GeoJson[P]] =
     new JsonValueCodec[GeoJson[P]] {
