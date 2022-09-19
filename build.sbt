@@ -2,7 +2,7 @@ val scala212 = "2.12.17"
 val scala213 = "2.13.8"
 val scala3 = "3.2.0"
 
-ThisBuild / tlBaseVersion := "0.2"
+ThisBuild / tlBaseVersion := "0.3.0"
 
 ThisBuild / organization := "org.gnieh"
 ThisBuild / organizationName := "GHM Mobile Development GmbH"
