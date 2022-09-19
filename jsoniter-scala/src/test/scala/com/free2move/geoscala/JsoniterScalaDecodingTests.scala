@@ -16,17 +16,17 @@
 
 package com.free2move.geoscala
 
-import io.circe._
-import io.circe.syntax._
+import com.github.plokhotnyuk.jsoniter_scala.core._
+import com.github.plokhotnyuk.jsoniter_scala.macros._
 import org.scalatest.EitherValues
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-class CirceDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
+class JsoniterScalaDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
 
-  import com.free2move.geoscala.circe._
+  import com.free2move.geoscala.jsoniter_scala._
 
-  "The circe decoders" should "handle simple 2D points" in {
+  "The jsoniter-scala codecs" should "handle simple 2D points" in {
     val json =
       """{
         "type": "Point",
@@ -35,8 +35,8 @@ class CirceDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
           51.8357775
         ]
       }"""
-    parser.decode[Point](json) shouldBe Right(Point(Coordinate(12.3046875, 51.8357775)))
-    parser.decode[Geometry](json) shouldBe Right(Point(Coordinate(12.3046875, 51.8357775)))
+    readFromString[Point](json) shouldBe Point(Coordinate(12.3046875, 51.8357775))
+    readFromString[Geometry](json) shouldBe Point(Coordinate(12.3046875, 51.8357775))
   }
 
   it should "handle points with more dimensions" in {
@@ -50,11 +50,15 @@ class CirceDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
           42.12345
         ]
       }"""
-    parser.decode[Point](json) shouldBe Right(Point(Coordinate(12.3046875, 51.8357775)))
-    parser.decode[Geometry](json) shouldBe Right(Point(Coordinate(12.3046875, 51.8357775)))
+    readFromString[Point](json) shouldBe Point(Coordinate(12.3046875, 51.8357775))
+    readFromString[Geometry](json) shouldBe Point(Coordinate(12.3046875, 51.8357775))
   }
 
   it should "handle FeatureCollection without Properties as pure JSON correctly" in {
+    type Json = Map[String, Int]
+
+    implicit val jsonCodec: JsonValueCodec[Json] = JsonCodecMaker.make
+
     val json =
       """{
           "type": "FeatureCollection",
@@ -74,15 +78,11 @@ class CirceDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
             }
           ]
         }"""
-    parser.decode[FeatureCollection[Json]](json) shouldBe Right(
-      FeatureCollection(
-        List(Feature(Json.obj("id" := 7), Point(Coordinate(12.3046875, 51.8357775))))
-      )
+    readFromString[FeatureCollection[Json]](json) shouldBe FeatureCollection(
+      List(Feature(Map("id" -> 7), Point(Coordinate(12.3046875, 51.8357775))))
     )
-    parser.decode[GeoJson[Json]](json) shouldBe Right(
-      FeatureCollection(
-        List(Feature(Json.obj("id" := 7), Point(Coordinate(12.3046875, 51.8357775))))
-      )
+    readFromString[GeoJson[Json]](json) shouldBe FeatureCollection(
+      List(Feature(Map("id" -> 7), Point(Coordinate(12.3046875, 51.8357775))))
     )
   }
 
