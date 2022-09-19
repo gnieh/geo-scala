@@ -55,22 +55,22 @@ object jsoniter_scala {
     JsonCodecMaker.make
 
   implicit val pointCodec: JsonValueCodec[Point] =
-    makeGeometryCodec("Point", _.coordinates, Point)
+    makeGeometryCodec("Point", _.coordinates, Point.apply)
 
   implicit val multiPointCodec: JsonValueCodec[MultiPoint] =
-    makeGeometryCodec("MultiPoint", _.coordinates, MultiPoint)
+    makeGeometryCodec("MultiPoint", _.coordinates, MultiPoint.apply)
 
   implicit val lineStringCodec: JsonValueCodec[LineString] =
-    makeGeometryCodec("LineString", _.coordinates, LineString)
+    makeGeometryCodec("LineString", _.coordinates, LineString.apply)
 
   implicit val multiLineStringCodec: JsonValueCodec[MultiLineString] =
-    makeGeometryCodec("MultiLineString", _.coordinates, MultiLineString)
+    makeGeometryCodec("MultiLineString", _.coordinates, MultiLineString.apply)
 
   implicit val polygonCodec: JsonValueCodec[Polygon] =
-    makeGeometryCodec("Polygon", _.coordinates, Polygon)
+    makeGeometryCodec("Polygon", _.coordinates, Polygon.apply)
 
   implicit val multiPolygonCodec: JsonValueCodec[MultiPolygon] =
-    makeGeometryCodec("MultiPolygon", _.coordinates, MultiPolygon)
+    makeGeometryCodec("MultiPolygon", _.coordinates, MultiPolygon.apply)
 
   private def makeGeometryCodec[C: JsonValueCodec, G <: Geometry](`type`: String, coords: G => C, geom: C => G): JsonValueCodec[G] =
     new JsonValueCodec[G] {
