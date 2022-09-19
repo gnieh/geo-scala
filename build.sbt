@@ -16,6 +16,8 @@ ThisBuild / tlSonatypeUseLegacyHost := true
 
 ThisBuild / crossScalaVersions := Seq(scala212, scala213, scala3)
 ThisBuild / scalaVersion := scala213 // the default Scala
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("11"))
+ThisBuild / tlJdkRelease := Some(8)
 
 lazy val root = tlCrossRootProject.aggregate(core, circe, jsoniterScala, polyline).settings(name := "geo-scala")
 
