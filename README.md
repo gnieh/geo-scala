@@ -3,11 +3,12 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.gnieh/geo-scala-core_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.gnieh/geo-scala-core_2.13)
 [![Continuous Integration](https://github.com/gnieh/geo-scala/actions/workflows/ci.yml/badge.svg)](https://github.com/gnieh/geo-scala/actions/workflows/ci.yml)
 
-A core AST and utilities for GeoJSON ([RFC 7946][rfc-7946]) and more. Builds for Scala 3, 2.13 and 2.12 on JVM, JS and partially Scala Native.
+A core AST and utilities for GeoJSON ([RFC 7946][rfc-7946]) and more. Builds for Scala 3, 2.13, and 2.12 on JVM, JS, and Scala Native.
 
 The project is divided in several submodules:
  - `core` contains the data model for geographical entities;
  - `circe` contains a set of [circe][circe] encoders and decoders for GeoJSON data model;
+ - `jsoniter-scala` contains a set of [jsoniter-scala][jsoniter-scala] codecs for GeoJSON data model;
  - `polyline` contains utilities to convert GeoJSON line strings to and from [polylines][polyline].
 
 ## Quickstart
@@ -42,4 +43,5 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 [rfc-7946]: https://tools.ietf.org/html/rfc7946
 [circe]: https://circe.github.io/circe
+[jsoniter-scala]: https://github.com/plokhotnyuk/jsoniter-scala
 [polyline]: https://developers.google.com/maps/documentation/utilities/polylineutility
