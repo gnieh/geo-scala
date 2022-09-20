@@ -16,6 +16,7 @@
 
 package com.free2move.geoscala
 
+import com.free2move.geoscala.circe._
 import io.circe._
 import io.circe.syntax._
 import org.scalatest.EitherValues
@@ -23,9 +24,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
 class CirceDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
-
-  import com.free2move.geoscala.circe._
-
   "The circe decoders" should "handle simple 2D points" in {
     val json =
       """{
@@ -85,5 +83,4 @@ class CirceDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
       )
     )
   }
-
 }

@@ -16,6 +16,7 @@
 
 package com.free2move.geoscala
 
+import com.free2move.geoscala.jsoniter_scala._
 import com.github.plokhotnyuk.jsoniter_scala.core._
 import com.github.plokhotnyuk.jsoniter_scala.macros._
 import org.scalatest.EitherValues
@@ -23,9 +24,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
 class JsoniterScalaDecodingTests extends AnyFlatSpec with Matchers with EitherValues {
-
-  import com.free2move.geoscala.jsoniter_scala._
-
   "The jsoniter-scala codecs" should "handle simple 2D points" in {
     val json =
       """{

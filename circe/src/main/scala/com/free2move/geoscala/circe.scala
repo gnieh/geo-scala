@@ -17,12 +17,10 @@
 package com.free2move.geoscala
 
 import cats.syntax.functor._
-
 import io.circe._
 import io.circe.syntax._
 
 trait LowPriorityGeoJsonEncoders {
-
   implicit val coordinateEncoder: Encoder[Coordinate] = Encoder.instance { coord =>
     Json.arr(Json.fromDoubleOrNull(coord.longitude), Json.fromDoubleOrNull(coord.latitude))
   }
@@ -71,7 +69,6 @@ trait GeoJsonEncoders extends LowPriorityGeoJsonEncoders {
 }
 
 trait GeoJsonDecoders {
-
   implicit val coordinateDecoder: Decoder[Coordinate] = Decoder.instance { cursor =>
     for {
       lng <- cursor.downN(0).as[Double]
@@ -131,15 +128,13 @@ trait GeoJsonDecoders {
   }
 
   @inline
-  private def ensureType(cursor: HCursor, `type`: String): Decoder.Result[String] = {
+  private def ensureType(cursor: HCursor, tpe: String): Decoder.Result[String] = {
     val typeCursor = cursor.downField("type")
     typeCursor.as[String] match {
-      case Right(b) if b != `type` => Left(DecodingFailure(s"GeoJSON's type is not ${`type`}", typeCursor.history))
+      case Right(b) if b != tpe => Left(DecodingFailure(s"GeoJSON's type is not $tpe", typeCursor.history))
       case res                     => res
     }
-
   }
-
 }
 
 /** Object with implicit circe encoders and decoders. You can alternatively mixin [[GeoJsonEncoders]] and [[GeoJsonDecoders]] instead of importing.
