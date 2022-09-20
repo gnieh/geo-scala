@@ -70,7 +70,7 @@ object jsoniter_scala {
   implicit val multiPolygonCodec: JsonValueCodec[MultiPolygon] =
     makeGeometryCodec("MultiPolygon", _.coordinates, MultiPolygon.apply)
 
-  private def makeGeometryCodec[C: JsonValueCodec, G <: Geometry](`type`: String, coords: G => C, geom: C => G): JsonValueCodec[G] =
+  private def makeGeometryCodec[C: JsonValueCodec, G <: Geometry](tpe: String, coords: G => C, geom: C => G): JsonValueCodec[G] =
     new JsonValueCodec[G] {
       private val coordinatesCodec: JsonValueCodec[C] = implicitly[JsonValueCodec[C]]
 
@@ -84,27 +84,33 @@ object jsoniter_scala {
             if (in.isCharBufEqualsTo(len, "type")) {
               if ((mask & 0x1) != 0) mask ^= 0x1
               else in.duplicatedKeyError(len)
-              len = in.readStringAsCharBuf()
-              if (!in.isCharBufEqualsTo(len, `type`)) in.discriminatorValueError("type")
+              if (!in.isCharBufEqualsTo(in.readStringAsCharBuf(), tpe)) in.discriminatorValueError("type")
             } else if (in.isCharBufEqualsTo(len, "coordinates")) {
               if ((mask & 0x2) != 0) mask ^= 0x2
               else in.duplicatedKeyError(len)
               coordinates = coordinatesCodec.decodeValue(in, coordinates)
             } else in.skip()
           }
+          if (mask != 0) error(in, mask)
           geom(coordinates)
         } else in.readNullOrTokenError(default, '}')
 
       override def encodeValue(x: G, out: JsonWriter): Unit = {
         out.writeObjectStart()
         out.writeNonEscapedAsciiKey("type")
-        out.writeNonEscapedAsciiVal(`type`)
+        out.writeNonEscapedAsciiVal(tpe)
         out.writeNonEscapedAsciiKey("coordinates")
         coordinatesCodec.encodeValue(coords(x), out)
         out.writeObjectEnd()
       }
 
       override def nullValue: G = null.asInstanceOf[G]
+
+      private def error(in: JsonReader, mask: Int): Nothing =
+        in.requiredFieldError {
+          if ((mask & 0x2) == 0) "type"
+          else "coordinates"
+        }
     }
 
   implicit val geometryCodec: JsonValueCodec[Geometry] = JsonCodecMaker.make
