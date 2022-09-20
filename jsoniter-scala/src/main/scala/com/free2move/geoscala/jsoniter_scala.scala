@@ -91,6 +91,7 @@ object jsoniter_scala {
               coordinates = coordinatesCodec.decodeValue(in, coordinates)
             } else in.skip()
           }
+          if (!in.isCurrentToken('}')) in.objectEndOrCommaError()
           if (mask != 0) error(in, mask)
           geom(coordinates)
         } else in.readNullOrTokenError(default, '}')
