@@ -132,7 +132,7 @@ trait GeoJsonDecoders {
     val typeCursor = cursor.downField("type")
     typeCursor.as[String] match {
       case Right(b) if b != tpe => Left(DecodingFailure(s"GeoJSON's type is not $tpe", typeCursor.history))
-      case res                     => res
+      case res                  => res
     }
   }
 }
