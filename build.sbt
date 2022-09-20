@@ -49,8 +49,10 @@ lazy val circe = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .settings(
     commonSettings ++ Seq(
       name := "geo-scala-circe",
-      libraryDependencies += "io.circe" %%% "circe-core" % circeVersion,
-      libraryDependencies += "io.circe" %%% "circe-parser" % circeVersion % Test
+      libraryDependencies ++= Seq(
+        "io.circe" %%% "circe-core" % circeVersion,
+        "io.circe" %%% "circe-parser" % circeVersion % Test
+      )
     )
   )
 
@@ -62,8 +64,10 @@ lazy val jsoniterScala = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .settings(
     commonSettings ++ Seq(
       name := "geo-scala-jsoniter-scala",
-      libraryDependencies += "com.github.plokhotnyuk.jsoniter-scala" %%% "jsoniter-scala-core" % jsoniterScalaVersion,
-      libraryDependencies += "com.github.plokhotnyuk.jsoniter-scala" %%% "jsoniter-scala-macros" % jsoniterScalaVersion % Provided
+      libraryDependencies ++= Seq(
+        "com.github.plokhotnyuk.jsoniter-scala" %%% "jsoniter-scala-core" % jsoniterScalaVersion,
+        "com.github.plokhotnyuk.jsoniter-scala" %%% "jsoniter-scala-macros" % jsoniterScalaVersion % Provided
+      )
     )
   )
 
