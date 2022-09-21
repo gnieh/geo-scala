@@ -21,13 +21,14 @@ import io.circe._
 import io.circe.syntax._
 
 trait LowPriorityGeoJsonEncoders {
-  implicit val coordinateEncoder: Encoder[Coordinate] = Encoder.instance { coord =>
+  implicit val coordinateEncoder: Encoder[Coordinate] = Encoder.instance { coord: Coordinate =>
     Json.arr(Json.fromDoubleOrNull(coord.longitude), Json.fromDoubleOrNull(coord.latitude))
   }
 
-  private def makeGeometryEncoder[C: Encoder, G <: Geometry](`type`: String, coords: G => C): Encoder[G] = Encoder.instance { geometry =>
-    Json.obj("type" := `type`, "coordinates" := coords(geometry))
-  }
+  private def makeGeometryEncoder[C: Encoder, G <: Geometry](`type`: String, coords: G => C): Encoder[G] =
+    Encoder.instance { geometry: G =>
+      Json.obj("type" := `type`, "coordinates" := coords(geometry))
+    }
 
   implicit val pointEncoder: Encoder[Point] = makeGeometryEncoder("Point", _.coordinates)
 
@@ -53,18 +54,20 @@ trait GeoJsonEncoders extends LowPriorityGeoJsonEncoders {
     case mp: MultiPolygon     => mp.asJson
   }
 
-  implicit def extendedFeatureEncoder[Properties: Encoder.AsObject]: Encoder[Feature[Properties]] = Encoder.instance { feature =>
-    Json.obj("type" := "Feature", "properties" := feature.properties, "geometry" := feature.geometry)
-  }
+  implicit def extendedFeatureEncoder[Properties: Encoder]: Encoder[Feature[Properties]] =
+    Encoder.instance { feature: Feature[Properties] =>
+      Json.obj("type" := "Feature", "properties" := feature.properties, "geometry" := feature.geometry)
+    }
 
-  implicit def extendedFeatureCollectionEncoder[Properties: Encoder.AsObject]: Encoder[FeatureCollection[Properties]] = Encoder.instance { featureCollection =>
-    Json.obj("type" := "FeatureCollection", "features" := featureCollection.features)
-  }
+  implicit def extendedFeatureCollectionEncoder[Properties: Encoder]: Encoder[FeatureCollection[Properties]] =
+    Encoder.instance { featureCollection: FeatureCollection[Properties] =>
+      Json.obj("type" := "FeatureCollection", "features" := featureCollection.features)
+    }
 
-  implicit def geojsonEncoder[Properties: Encoder.AsObject]: Encoder[GeoJson[Properties]] = Encoder.instance {
-    case fc @ FeatureCollection(_) => fc.asJson
-    case f @ Feature(_, _)         => f.asJson
-    case geom: Geometry            => (geom: Geometry).asJson
+  implicit def geojsonEncoder[Properties: Encoder]: Encoder[GeoJson[Properties]] = Encoder.instance {
+    case fc: FeatureCollection[Properties] => fc.asJson
+    case f: Feature[Properties]            => f.asJson
+    case geom: Geometry                    => (geom: Geometry).asJson
   }
 }
 
