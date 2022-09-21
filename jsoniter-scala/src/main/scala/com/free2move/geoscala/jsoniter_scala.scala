@@ -70,8 +70,9 @@ object jsoniter_scala {
   implicit val multiPolygonCodec: JsonValueCodec[MultiPolygon] =
     makeGeometryCodec("MultiPolygon", _.coordinates, MultiPolygon.apply)
 
-  private[this] def makeGeometryCodec[C, G <: Geometry](tpe: String, coords: G => C, geom: C => G)
-                                                       (implicit coordinatesCodec: JsonValueCodec[C]): JsonValueCodec[G] =
+  private[this] def makeGeometryCodec[C, G <: Geometry](tpe: String, coords: G => C, geom: C => G)(implicit
+      coordinatesCodec: JsonValueCodec[C]
+  ): JsonValueCodec[G] =
     new JsonValueCodec[G] {
       override val nullValue: G = null.asInstanceOf[G]
 
