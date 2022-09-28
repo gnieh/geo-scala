@@ -195,7 +195,7 @@ object jsoniter_scala {
                   in.rollbackToken()
                   val buf = new ListBuffer[Feature[P]]
                   while ({
-                    buf.addOne(featureCodec.decodeValue(in, featureCodec.nullValue))
+                    buf += featureCodec.decodeValue(in, featureCodec.nullValue)
                     in.isNextToken(',')
                   }) ()
                   if (in.isCurrentToken(']')) features = buf.toList
