@@ -21,12 +21,12 @@ import io.circe._
 import io.circe.syntax._
 
 trait LowPriorityGeoJsonEncoders {
-  implicit val coordinateEncoder: Encoder[Coordinate] = Encoder.instance { coord: Coordinate =>
+  implicit val coordinateEncoder: Encoder[Coordinate] = Encoder.instance { (coord: Coordinate) =>
     Json.arr(Json.fromDoubleOrNull(coord.longitude), Json.fromDoubleOrNull(coord.latitude))
   }
 
   private def makeGeometryEncoder[C: Encoder, G <: Geometry](`type`: String, coords: G => C): Encoder[G] =
-    Encoder.instance { geometry: G =>
+    Encoder.instance { (geometry: G) =>
       Json.obj("type" := `type`, "coordinates" := coords(geometry))
     }
 
@@ -55,12 +55,12 @@ trait GeoJsonEncoders extends LowPriorityGeoJsonEncoders {
   }
 
   implicit def extendedFeatureEncoder[Properties: Encoder]: Encoder[Feature[Properties]] =
-    Encoder.instance { feature: Feature[Properties] =>
+    Encoder.instance { (feature: Feature[Properties]) =>
       Json.obj("type" := "Feature", "properties" := feature.properties, "geometry" := feature.geometry)
     }
 
   implicit def extendedFeatureCollectionEncoder[Properties: Encoder]: Encoder[FeatureCollection[Properties]] =
-    Encoder.instance { featureCollection: FeatureCollection[Properties] =>
+    Encoder.instance { (featureCollection: FeatureCollection[Properties]) =>
       Json.obj("type" := "FeatureCollection", "features" := featureCollection.features)
     }
 
@@ -80,12 +80,13 @@ trait GeoJsonDecoders {
   }
 
   @inline
-  private def makeGeometryDecoder[C: Decoder, G <: Geometry](`type`: String, create: C => G): Decoder[G] = Decoder.instance[G] { cursor =>
-    for {
-      _ <- ensureType(cursor, `type`)
-      coords <- cursor.downField("coordinates").as[C]
-    } yield create(coords)
-  }
+  private def makeGeometryDecoder[C: Decoder, G <: Geometry](`type`: String, create: C => G): Decoder[G] =
+    Decoder.instance[G] { (cursor: HCursor) =>
+      for {
+        _ <- ensureType(cursor, `type`)
+        coords <- cursor.downField("coordinates").as[C]
+      } yield create(coords)
+    }
 
   implicit val pointDecoder: Decoder[Point] = makeGeometryDecoder("Point", Point.apply)
 
@@ -115,20 +116,22 @@ trait GeoJsonDecoders {
       geometryDecoder.widen[GeoJson[Nothing]].asInstanceOf[Decoder[GeoJson[Properties]]]
     ).reduce(_ or _)
 
-  implicit def extendedFeatureDecoder[Properties: Decoder]: Decoder[Feature[Properties]] = Decoder.instance { cursor =>
-    for {
-      _ <- ensureType(cursor, "Feature")
-      properties <- cursor.downField("properties").as[Properties]
-      geometry <- cursor.downField("geometry").as[Geometry]
-    } yield Feature(properties, geometry)
-  }
+  implicit def extendedFeatureDecoder[Properties: Decoder]: Decoder[Feature[Properties]] =
+    Decoder.instance { (cursor: HCursor) =>
+      for {
+        _ <- ensureType(cursor, "Feature")
+        properties <- cursor.downField("properties").as[Properties]
+        geometry <- cursor.downField("geometry").as[Geometry]
+      } yield Feature(properties, geometry)
+    }
 
-  implicit def extendedFeatureCollectionDecoder[Properties: Decoder]: Decoder[FeatureCollection[Properties]] = Decoder.instance { cursor =>
-    for {
-      _ <- ensureType(cursor, "FeatureCollection")
-      features <- cursor.downField("features").as[List[Feature[Properties]]]
-    } yield FeatureCollection(features)
-  }
+  implicit def extendedFeatureCollectionDecoder[Properties: Decoder]: Decoder[FeatureCollection[Properties]] =
+    Decoder.instance { (cursor: HCursor) =>
+      for {
+        _ <- ensureType(cursor, "FeatureCollection")
+        features <- cursor.downField("features").as[List[Feature[Properties]]]
+      } yield FeatureCollection(features)
+    }
 
   @inline
   private def ensureType(cursor: HCursor, tpe: String): Decoder.Result[String] = {
