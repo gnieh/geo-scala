@@ -2,7 +2,7 @@ val scala212 = "2.12.17"
 val scala213 = "2.13.9"
 val scala3 = "3.2.0"
 
-ThisBuild / tlBaseVersion := "0.3"
+ThisBuild / tlBaseVersion := "0.4"
 
 ThisBuild / organization := "org.gnieh"
 ThisBuild / organizationName := "GHM Mobile Development GmbH"
@@ -26,10 +26,7 @@ lazy val commonSettings = Seq(
     "org.scalatest" %%% "scalatest" % "3.2.13" % Test,
     "org.scalatestplus" %%% "scalacheck-1-16" % "3.2.13.0" % Test,
     "org.scalacheck" %%% "scalacheck" % "1.16.0" % Test
-  ),
-  // disable MiMa until we have proper version released on gnieh / all platforms
-  // once removed, the tlBaseVersion has to adjusted as well
-  mimaPreviousArtifacts := Set.empty
+  )
 )
 
 lazy val core = crossProject(JVMPlatform, JSPlatform, NativePlatform)
